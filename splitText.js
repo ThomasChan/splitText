@@ -90,11 +90,15 @@
       var lines_array = [];
 
       for ( var i = 0; i < arr.length; ++i ) {
-        var chars_array = [];
-        for ( var x = 0; x < arr[i].length; ++x ) {
-          chars_array.push( '<div class="splitText_chars">' + arr[i][x] + '</div>' );
+        var arr_words = arr[i].split(' '),words_array = [];
+        for( var w = 0; w <arr_words.length; ++w  ){
+          var chars_array = [];
+          for ( var x = 0; x < arr_words[w].length; ++x ) {
+            chars_array.push( '<div class="splitText_chars">' + arr_words[w][x] + '</div>' );
+          };
+          words_array.push( '<div class="splitText_words">' + chars_array.join('') + '</div>&nbsp;' );
         };
-        lines_array.push( '<div class="splitText_lines">' + chars_array.join('') + '</div>' );
+        lines_array.push( '<div class="splitText_lines">' + words_array.join('') + '</div>' );
       };
 
       return lines_array.join('');
@@ -129,11 +133,13 @@
       if ( typeof option.type === 'string' ) {
         if ( option.type === 'chars' ) {
           typeOption = '.splitText_chars';
+        } else if ( option.type === 'words' ) {
+          typeOption = '.splitText_words';
         } else if ( option.type === 'lines' ) {
           typeOption = '.splitText_lines';
         }
       } else {
-        throw new Error('The option object type paramater should be a string, like "chars", or "lines"');
+        throw new Error('The option object type paramater should be a string, like "chars", or "words", or "lines"');
       }
 
       _querySelector( selector ).innerHTML = arr;
