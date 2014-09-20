@@ -7,6 +7,8 @@
 
 -------------------------------
 
+例子：thomaschan.github.io/splitText/
+
 
 使用方法:
 splitText( '#foo', {
