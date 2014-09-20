@@ -128,7 +128,6 @@
 
       var p = _getTheText( selector ),
           arr = _getLineArray( p.now );
-
       var typeOption;
       if ( typeof option.type === 'string' ) {
         if ( option.type === 'chars' ) {

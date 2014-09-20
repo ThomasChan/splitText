@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GS DEMO</title>
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=7">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <style>
+    *{
+      padding:0;
+      margin:0;
+      font:500 14px/1.8 'Hiragino Sans GB', 'fangzheng', 'Microsoft Yahei', sans-serif;
+      transition: all .2s ease;
+      -moz-transition: all .2s ease; /* Firefox 4 */
+      -webkit-transition: all .2s ease; /* Safari and Chrome */
+      -o-transition: all .2s ease; /* Opera */
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -o-box-sizing: border-box;
+    }
+    a{
+      color:#000;
+      text-decoration: none;
+    }
+    ul{
+      list-style: none;
+    }
+    html, body{
+      width:100%;
+        height:100%;
+      position: relative;
+    }
+    h3{
+      line-height: 1.5;
+      font-size: 26px;
+      font-weight: 100;
+      color: #000;
+      letter-spacing: .2rem;
+    }
+    p{
+      color:#000;
+    }
+    .clearfix:after {
+        display: block;
+        content: "";
+        clear: both;
+        visibility: hidden;
+        line-height: 0;
+        height: 0;
+    }
+    .clearfix { display: block;clear:both; }
+    html[xmlns] .clearfix { display: block; }
+    * html .clearfix { height: 1%; }
+
+    header,section{ width:90%;max-width:1024px;margin:0 auto; }
+    header{text-align: center;padding: 6% 4%;background: #3498db;color: #fff;}
+    header p,section pre, section p{color:#fff;}
+    section{background: #2c3e50;color: #fff;padding: 1% 4%;}
+    ul{ counter-reset: li;list-style: none; /* 清除列表默认的编码*/*list-style: decimal; /* 让IE6/7具有默认的编码 */padding-left: 30px; }
+    ul ul{padding-left: 0;}
+    li{ counter-increment: term;position: relative;line-height: 2;padding-left: 40px; }
+    li ul li{ counter-increment: term_li; }
+    ul li::before{
+      content: counter( term );
+      position: absolute;
+      left:0;
+      width:25px;
+      height:25px;
+      text-align: center;
+      font-size:14px;
+      line-height: 25px;
+      background:#3498db;
+      display:block;
+      color:#fff;
+    }
+    ul li::after{
+      content: '';
+      position: absolute;
+      left:25px;top:7px;
+      border-top:6px solid #2c3e50;
+      border-bottom:6px solid #2c3e50;
+      border-left:6px solid #3498db;
+      border-right:0 dotted transparent;
+    }
+    ul li ul li::before{ content: counter( term_li ); }
+    h2{font-size:34px;}
+    h4{font-size: 20px;margin-top:40px;}
+    .ani_div{display: table;margin:40px auto;}
+    .ani_div pre,.ani_div p{display:table-cell;border:1px solid #aaa;padding:20px;}
+    header a,button{
+      background:#52a2f0;
+      color:#fff;
+      font-size:14px;
+      display:inline-block;
+      text-align: center;
+      line-height: 1.5;
+      border-radius:4px;
+      border:1px solid #52a2f0;
+      margin:0 5px;
+      width:110px;
+      height:34px;
+    }
+    header a:hover,button:hover,header a:active,button:active{
+      color: #52a2f0;
+      background: #f9f9f9;
+      border-color:#52a2f0;
+    }
+    header a{width:140px;line-height: 34px;margin-top: 30px;box-shadow: 0 2px 3px;}
+
+
+
+
+    #ani{white-space: pre-wrap;opacity:0;}
+    .splitText_words,.splitText_chars{
+      position: relative;
+      display:inline-block;
+      margin:0;
+      padding:0;
+    }
+
+  </style>
+  <script src="TweenMax.min.js"></script>
+  <script src="TimelineLite.min.js"></script>
+  <script src="splitText.js"></script>
+</head>
+<body>
+  <header>
+    <hgroup>
+      <h2>splitText.js</h2>
+      <p>这是一个可以给单个字符、单词、单行文字添加动画效果的插件，只依赖于 GreenSock 的 TimelineLite，GreenSock 官方本来就有很 NB 的 splitText.js 但是要付费成为会员才能获得，于是就自己写了一个简易版本。（不支持同时运行多个实例）<br>
+        有任何问题请告知我：chenjunhao5818@gmail.com</p>
+      <a href="//thomaschan.github.io/javascripts/splitText.min.js">Download minfied</a>
+    </hgroup>
+  </header>
+  <section class="intro">
+    <h4>使用方法：</h4>
+    <div class="useway">不依赖 jQuery 所以在页面中只需引入三个文件：TweenMax.min.js，TimelineLite.min.js 和 splitText.min.js<br>
+      然后直接使用就可以了：<br>
+        <pre>
+  splitText( '#foo', {
+    type: 'chars',
+    animate: 'bounceInDown',
+    duration: 0.8,
+    delay: "-=0.5",
+    restore: true
+  });
+        </pre>
+      当然还有两行 CSS 添加上：
+        <pre>
+  #ani{white-space: pre-wrap;opacity:0;}
+  .splitText_words,
+  .splitText_chars{
+    position: relative;
+    display:inline-block;
+    margin:0;
+    padding:0;
+  }
+        </pre>
+    </div>
+    <h4>参数说明：</h4>
+    <div class="useway">参数也很简单，接受两个参数
+      <ul>
+        <li>第一个参数是选择器，选择器可以是 id，可以是 tagName，可以是 class，还可以是一个数组，但是这个数组不是 CSS 选择器的数组，而是你想要进行 split 的文本或段落的数组，展示出来的文本想换行的话请在数组有用逗号隔开就行，像这样：<br>
+          <ul>
+            <li>splitText( '#foo' );</li>
+            <li>splitText( '.foo' );</li>
+            <li>splitText( '#foo p' );</li>
+            <li>splitText( '.foo p' );</li>
+            <li>splitText( 'p' );</li>
+            <li>splitText( [ '这里的文字展示出来是不换行的这里的文字展示出来是不换行的' ] );</li>
+            <li>splitText( [ '这里是文字是换行的这里是文字是换行的', '这里是文字是换行的', '这里是文字是换行的' ] );</li>
+          </ul>
+        </li>
+        <li>第二个参数是一个 object，字段有5个：
+          <ul>
+            <li>type 指定动画效果是加在字符上、单词上、还是行 上<li>
+            <li>animate 指定使用哪一种动画效果（目前只有一个。。。不过动画效果就是用 TimelineLite.js 弄的，也很简单）</li>
+            <li>duration 指定动画时长</li>
+            <li>delay 指定下一个元素的延时时长，取值是字符串，就是 -= 和 += ，后边是秒数</li>
+            <li>restore 指定动画完成后是不是去掉多余的标签，取值 true 和 false</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <section>
+    <h4>EXAMPLEs</h4>
+    <div id="ani_1" class="ani_div">
+      <p>The HTML Working Group has published a Proposed Recommendation of HTML5.
+      This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
+      In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
+       Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
+      <pre>
+  splitText( '#ani_1 p', {
+    type: 'chars',
+    animate: 'bounceInDown',
+    duration: 0.8,
+    delay: "-=0.5",
+    restore: true
+  });
+  <button id="run_ani_1">run</button>
+      </pre>
+    </div>
+    <div id="ani_2" class="ani_div">
+      <p>The HTML Working Group has published a Proposed Recommendation of HTML5.
+      This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
+      In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
+       Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
+      <pre>
+  splitText( '#ani_2 p', {
+    type: 'words',
+    animate: 'bounceInDown',
+    duration: 0.8,
+    delay: "-=0.5",
+    restore: true
+  });
+  <button id="run_ani_2">run</button>
+      </pre>
+    </div>
+    <div id="ani_3" class="ani_div">
+      <p>The HTML Working Group has published a Proposed Recommendation of HTML5.
+      This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
+      In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
+       Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
+      <pre>
+  splitText( '#ani_3 p', {
+    type: 'lines',
+    animate: 'bounceInDown',
+    duration: 1.2,
+    delay: "+=1.5",
+    restore: true
+  });
+  <button id="run_ani_3">run</button>
+      </pre>
+    </div>
+  </section>
+  <script>
+  document.querySelector('#run_ani_1').onclick = function(){
+    splitText( '#ani_1 p', {
+      type: 'chars',
+      animate: 'bounceInDown',
+      duration: 0.8,
+      delay: "-=0.5",
+      restore: true
+    });
+  };
+  document.querySelector('#run_ani_2').onclick = function(){
+    splitText( '#ani_2 p', {
+      type: 'words',
+      animate: 'bounceInDown',
+      duration: 0.8,
+      delay: "-=0.5",
+      restore: true
+    });
+  }
+  document.querySelector('#run_ani_3').onclick = function(){
+    splitText( '#ani_3 p', {
+      type: 'lines',
+      animate: 'bounceInDown',
+      duration: 1.2,
+      delay: "+=1.5",
+      restore: true
+    });
+  }
+  </script>
+</body>
+</html>
