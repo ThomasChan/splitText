@@ -109,7 +109,7 @@
         var tl = new TimelineLite();
             tl.add("stagger", delay);
             tl.to( selector, 0.1, {opacity: 1}, 0)
-              .staggerFrom( typeOption, duration, {opacity: 0, y:-60, rotation: 180, ease:Back.easeOut}, 0.1, "stagger", function(){
+              .staggerFrom( typeOption, duration, {opacity: 0, y:-60, rotationZ: 180, ease:Back.easeOut}, 0.1, "stagger", function(){
                 if( restore === true ){ _querySelector( selector ).innerHTML = p; };
               });
       }
@@ -125,6 +125,8 @@
 
 
     var init = function ( selector, option ) {
+
+      CSSPlugin.defaultTransformPerspective = 400;
 
       var p = _getTheText( selector ),
           arr = _getLineArray( p.now );
