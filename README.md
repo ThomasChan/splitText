@@ -7,22 +7,5 @@
 
 -------------------------------
 
-例子：thomaschan.github.io/splitText/
+例子及使用方法：thomaschan.github.io/splitText/
 
-
-使用方法:
-splitText( '#foo', {
-    type: 'chars',
-    animate: 'bounceInDown',
-    duration: 0.8,
-    delay: "+=0.6",
-    restore: true
-} )
-
-选项: {
-    type:  [ 'chars' | 'lines' ],
-    animate: 'bounceInDown',
-    duration: 0 ~ 1,
-    delay: "[ -= | += ] 0 ~ 1",
-    restore: [ true | false ]
-}
