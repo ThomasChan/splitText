@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=7">
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" href="../stylesheets/font-awesome.min.css">
   <style>
     *{
       padding:0;
@@ -55,6 +56,9 @@
     html[xmlns] .clearfix { display: block; }
     * html .clearfix { height: 1%; }
 
+    span.fa{margin-left:4px;margin-right:4px;}
+    span.fa-lg{margin-top:-4px;}
+
     header,section{ width:90%;max-width:1024px;margin:0 auto; }
     header{text-align: center;padding: 6% 4%;background: #3498db;color: #fff;}
     header p,section pre, section p{color:#fff;}
@@ -88,6 +92,7 @@
     ul li ul li::before{ content: counter( term_li ); }
     h2{font-size:34px;}
     h4{font-size: 20px;margin-top:40px;}
+    h5{font-size:18px;margin-top: 20px;}
     .ani_div{display: table;margin:40px auto;}
     .ani_div pre,.ani_div p{display:table-cell;border:1px solid #aaa;padding:20px;}
     header a,button{
@@ -108,11 +113,15 @@
       background: #f9f9f9;
       border-color:#52a2f0;
     }
-    header a{width:140px;line-height: 34px;margin-top: 30px;box-shadow: 0 2px 3px;}
+    header a{width:auto;line-height: 34px;margin-top: 30px;box-shadow: 0 2px 3px;padding:0 5px;}
+    section>div,section>h5,section>ul{padding-left: 30px;}
 
-
-
-
+    .disable{
+      color:#888 !important;
+      background: #aaa !important;
+      border-color:#aaa !important;
+      cursor:not-allowed !important;
+    }
     #ani{white-space: pre-wrap;opacity:0;}
     .splitText_words,.splitText_chars{
       position: relative;
@@ -122,9 +131,11 @@
     }
 
   </style>
-  <script src="TweenMax.min.js"></script>
-  <script src="TimelineLite.min.js"></script>
-  <script src="splitText.js"></script>
+  <script src="../javascripts/TweenMax.min.js"></script>
+  <script src="../javascripts/TimelineLite.min.js"></script>
+  <script src="../javascripts/splitText.js"></script>
+
+  <script src="../javascripts/libs/jquery.min.js"></script>
 </head>
 <body>
   <header>
@@ -132,11 +143,13 @@
       <h2>splitText.js</h2>
       <p>这是一个可以给单个字符、单词、单行文字添加动画效果的插件，只依赖于 GreenSock 的 TimelineLite，GreenSock 官方本来就有很 NB 的 splitText.js 但是要付费成为会员才能获得，于是就自己写了一个简易版本。（不支持同时运行多个实例）<br>
         有任何问题请告知我：chenjunhao5818@gmail.com</p>
-      <a href="//thomaschan.github.io/javascripts/splitText.min.js">Download minfied</a>
+      <a href="//thomaschan.github.io/javascripts/splitText.min.js"><span class="fa fa-download"></span>Download minfied</a>
+      <iframe src="http://ghbtns.com/github-btn.html?user=ThomasChan&repo=splitText&type=fork"
+  allowtransparency="true" frameborder="0" scrolling="0" width="53" height="20"></iframe>
     </hgroup>
   </header>
   <section class="intro">
-    <h4>使用方法：</h4>
+    <h4><span class="fa fa-code fa-lg"></span>使用方法：</h4>
     <div class="useway">不依赖 jQuery 所以在页面中只需引入三个文件：TweenMax.min.js，TimelineLite.min.js 和 splitText.min.js<br>
       然后直接使用就可以了：<br>
         <pre>
@@ -150,7 +163,6 @@
         </pre>
       当然还有两行 CSS 添加上：
         <pre>
-  #ani{white-space: pre-wrap;opacity:0;}
   .splitText_words,
   .splitText_chars{
     position: relative;
@@ -160,7 +172,7 @@
   }
         </pre>
     </div>
-    <h4>参数说明：</h4>
+    <h4><span class="fa fa-cogs fa-lg"></span>参数说明：</h4>
     <div class="useway">参数也很简单，接受两个参数
       <ul>
         <li>第一个参数是选择器，选择器可以是 id，可以是 tagName，可以是 class，还可以是一个数组，但是这个数组不是 CSS 选择器的数组，而是你想要进行 split 的文本或段落的数组，展示出来的文本想换行的话请在数组有用逗号隔开就行，像这样：<br>
@@ -176,27 +188,33 @@
         </li>
         <li>第二个参数是一个 object，字段有5个：
           <ul>
-            <li>type 指定动画效果是加在字符上、单词上、还是行 上<li>
-            <li>animate 指定使用哪一种动画效果（目前只有一个。。。不过动画效果就是用 TimelineLite.js 弄的，也很简单）</li>
-            <li>duration 指定动画时长</li>
-            <li>delay 指定下一个元素的延时时长，取值是字符串，就是 -= 和 += ，后边是秒数</li>
-            <li>restore 指定动画完成后是不是去掉多余的标签，取值 true 和 false</li>
+            <li>perspective 透视距离 ；默认 400px</li>
+            <li>type 指定动画效果是加在字符上、单词上、还是行 上；默认为 chars<li>
+            <li>duration 指定动画时长；默认0.8秒</li>
+            <li>opacity 指定动画开始时的元素透明度；默认从 0 开始</li>
+            <li>x 指定动画开始时元素较原始位置的 x 轴偏移量；默认偏移 0</li>
+            <li>y 指定动画开始时元素较原始位置的 y 轴偏移量；默认偏移 -60px</li>
+            <li>rotationX x 轴旋转角度；默认 0</li>
+            <li>rotationY y 轴旋转角度；默认 0</li>
+            <li>rotationZ z 轴旋转角度；默认 -180</li>
+            <li>delay 指定下一个元素的延时时长，取值是字符串，就是 -= 和 += ，后边是秒数；默认 +=0.6</li>
+            <li>restore 指定动画完成后是不是去掉多余的标签，取值 true 和 false；默认 true</li>
+            <li>fn 动画结束后的回调函数</li>
           </ul>
         </li>
       </ul>
     </div>
   </section>
   <section>
-    <h4>EXAMPLEs</h4>
+    <h4><span class="fa fa-file-code-o fa-lg"></span>EXAMPLEs</h4>
     <div id="ani_1" class="ani_div">
       <p>The HTML Working Group has published a Proposed Recommendation of HTML5.
-      This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
-      In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
-       Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
+This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
+In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
+Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
       <pre>
   splitText( '#ani_1 p', {
     type: 'chars',
-    animate: 'bounceInDown',
     duration: 0.8,
     delay: "-=0.5",
     restore: true
@@ -206,13 +224,12 @@
     </div>
     <div id="ani_2" class="ani_div">
       <p>The HTML Working Group has published a Proposed Recommendation of HTML5.
-      This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
-      In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
-       Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
+This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
+In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
+Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
       <pre>
   splitText( '#ani_2 p', {
     type: 'words',
-    animate: 'bounceInDown',
     duration: 0.8,
     delay: "-=0.5",
     restore: true
@@ -222,13 +239,12 @@
     </div>
     <div id="ani_3" class="ani_div">
       <p>The HTML Working Group has published a Proposed Recommendation of HTML5.
-      This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
-      In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
-       Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
+This specification defines the 5th major revision of the core language of the World Wide Web: the Hypertext Markup Language (HTML).
+In this version, new features are introduced to help Web application authors, new elements are introduced based on research into prevailing authoring practices, and special attention has been given to defining clear conformance criteria for user agents in an effort to improve interoperability.
+Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
       <pre>
   splitText( '#ani_3 p', {
     type: 'lines',
-    animate: 'bounceInDown',
     duration: 1.2,
     delay: "+=1.5",
     restore: true
@@ -237,34 +253,61 @@
       </pre>
     </div>
   </section>
+  <section>
+    <h4><span class="fa fa-level-up fa-lg"></span>版本更新</h4>
+    <h5>v 1.1</h5>
+    <ul>
+      <li>更改动画方法</li>
+      <li>添加 option 参数</li>
+      <li>添加回调函数</li>
+    </ul>
+    <h5>v 1.0</h5>
+    <ul>
+      <li>初始版本</li>
+    </ul>
+  </section>
   <script>
-  document.querySelector('#run_ani_1').onclick = function(){
+  var btn_click = false;
+  $('#run_ani_1').on('click', function(){
+    if( btn_click === true ) return;
+    $(this).addClass( 'disable' );
+    var that = $(this);
+    btn_click = true;
     splitText( '#ani_1 p', {
       type: 'chars',
-      animate: 'bounceInDown',
       duration: 0.8,
       delay: "-=0.5",
       restore: true
     });
-  };
-  document.querySelector('#run_ani_2').onclick = function(){
+    setTimeout(function(){ btn_click = false;that.removeClass( 'disable' ); }, 49000);
+  })
+  $('#run_ani_2').on('click', function(){
+    if( btn_click === true ) return;
+    $(this).addClass( 'disable' );
+    var that = $(this);
+    btn_click = true;
     splitText( '#ani_2 p', {
       type: 'words',
-      animate: 'bounceInDown',
-      duration: 0.8,
+      duration: 1,
+      y: 100,
+      rotationY: 100,
       delay: "-=0.5",
-      restore: true
     });
-  }
-  document.querySelector('#run_ani_3').onclick = function(){
+    setTimeout(function(){ btn_click = false;that.removeClass( 'disable' ); }, 10000);
+  })
+  $('#run_ani_3').on('click', function(){
+    if( btn_click === true ) return;
+    $(this).addClass( 'disable' );
+    var that = $(this);
+    btn_click = true;
     splitText( '#ani_3 p', {
       type: 'lines',
-      animate: 'bounceInDown',
       duration: 1.2,
       delay: "+=1.5",
       restore: true
     });
-  }
+    setTimeout(function(){ btn_click = false;that.removeClass( 'disable' ); }, 5000);
+  });
   </script>
 </body>
 </html>

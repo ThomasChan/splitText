@@ -1,34 +1,11 @@
 /*!
-
-  splitText.js v1.0.0
-
+  splitText.js v1.1
   Dependence TimelineLite
-
   Copyright (C) 2014 by thomas chan
   Email: chenjunhao5818@gmail.com
-  time: 2014/09/20 PM 4:40
-
-
-  now this plugin just has one method and one animation effect;
-
-  used:
-    splitText( '#foo', {
-        type: 'chars',
-        animate: 'bounceInDown',
-        duration: 0.8,
-        delay: "+=0.6",
-        restore: true
-    } )
-
-  option: {
-      type:  [ 'chars' | 'lines' ],
-      animate: 'bounceInDown',
-      duration: 0 ~ 1,
-      delay: "[ -= | += ] 0 ~ 1",
-      restore: [ true | false ]
-  }
+  init time: 2014/09/20 PM 4:40
+  update time: 2014/09/21 PM 3:20
 */
-
 
 (function ( window ) {
   "use strict";
@@ -104,32 +81,59 @@
       return lines_array.join('');
     };
 
-    var _animate = {
-      bounceInDown: function( selector, duration, delay, typeOption, restore, p ){
-        var tl = new TimelineLite();
-            tl.add("stagger", delay);
-            tl.to( selector, 0.1, {opacity: 1}, 0)
-              .staggerFrom( typeOption, duration, {opacity: 0, y:-60, rotationZ: 180, ease:Back.easeOut}, 0.1, "stagger", function(){
-                if( restore === true ){ _querySelector( selector ).innerHTML = p; };
-              });
+    //  animate the 'typeOption'
+    var _animate = function ( selector, typeOption, option, p ) {
+      var tl = new TimelineLite();
+
+      tl.add("stagger", option.delay);
+      tl.to( selector, 0.1, {opacity: 1}, 0)
+        .staggerFrom(
+          typeOption,
+          option.duration,
+          {
+              opacity: option.opacity,
+              x: option.x,
+              y: option.y,
+              rotationX: option.rotationX,
+              rotationY: option.rotationY,
+              rotationZ: option.rotationZ,
+              ease:Back.easeOut
+          },
+          0.1,
+          "stagger",
+          function () {
+            if ( option.restore === true ) { _querySelector( selector ).innerHTML = p; };
+            if( option.fn ) option.fn();
+          }
+        );
+    };
+
+    //  set default option
+    var _option = function ( option ) {
+      return {
+        type:  option.type || 'chars',
+        duration: option.duration || 0.8,
+        opacity: option.opacity || 0,
+        x: option.x || 0,
+        y: option.y || -60,
+        rotationX: option.rotationX || 0,
+        rotationY: option.rotationY || 0,
+        rotationZ: option.rotationZ || 180,
+        delay: option.delay || "+=0.6",
+        restore: option.restore || true,
+        fn: option.fn || function () { }
       }
     };
 
-    var option = option || {
-      type: 'chars',
-      animate: 'bounceInDown',
-      duration: 0.8,
-      delay: "+=0.6",
-      restore: true
-    };
-
-
+    //  init
     var init = function ( selector, option ) {
 
       CSSPlugin.defaultTransformPerspective = 400;
 
-      var p = _getTheText( selector ),
-          arr = _getLineArray( p.now );
+      var p = _getTheText( selector );
+
+      var arr = _getLineArray( p.now );
+
       var typeOption;
       if ( typeof option.type === 'string' ) {
         if ( option.type === 'chars' ) {
@@ -145,13 +149,10 @@
 
       _querySelector( selector ).innerHTML = arr;
 
-      setTimeout(function () {
-        _animate[ option.animate]( selector, option.duration, option.delay, typeOption, option.restore, p.original );
-      }, 1000);
+      setTimeout( _animate( selector, typeOption, option, p.original ), 500);
     };
 
-
-    init( selector, option );
+    init( selector, _option( option ) );
   };
 
 })( window );
