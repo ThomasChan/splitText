@@ -110,6 +110,7 @@
 
     //  set default option
     var _option = function ( option ) {
+      if( !option ){ var option = {}; }
       return {
         type:  option.type || 'chars',
         duration: option.duration || 0.8,
