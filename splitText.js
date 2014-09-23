@@ -1,16 +1,14 @@
 /*!
-  splitText.js v1.1
+  splitText.js v1.1.5
   Dependence TimelineLite
   Copyright (C) 2014 by thomas chan
   Email: chenjunhao5818@gmail.com
   init time: 2014/09/20 PM 4:40
-  update time: 2014/09/21 PM 3:20
+  update time: 2014/09/23 PM 2:12
 */
 
-(function ( window ) {
+var splitText = (function () {
   "use strict";
-
-  var splitText = window.splitText = function ( selector, option ) {
 
     //  'selector' can be a string or an array
     var _querySelector = function ( selector ) {
@@ -153,7 +151,5 @@
       setTimeout( _animate( selector, typeOption, option, p.original ), 500);
     };
 
-    init( selector, _option( option ) );
-  };
-
-})( window );
+    return function ( selector, option ) { init( selector, _option( option ) ); }
+})();
