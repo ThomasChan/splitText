@@ -55,7 +55,7 @@ var splitText = (function () {
     //  return an object include
     var _getTheText = function ( selector ) {
       return {
-        "original": _querySelector( selector ).innerHTML.replace( /\r?\n/g, '<br>' ),
+        "original": _querySelector( selector ).innerHTML,
         "now": _querySelector( selector ).innerHTML.split( /\r?\n/g )
       };
     };
@@ -64,11 +64,11 @@ var splitText = (function () {
     var _getLineArray = function ( arr ) {
       var lines_array = [];
 
-      for ( var i = 0; i < arr.length; ++i ) {
+      for ( var i = 0, l = arr.length; i < l; ++i ) {
         var arr_words = arr[i].split(' '),words_array = [];
-        for( var w = 0; w <arr_words.length; ++w  ){
+        for( var w = 0, h = arr_words.length; w < h; ++w  ){
           var chars_array = [];
-          for ( var x = 0; x < arr_words[w].length; ++x ) {
+          for ( var x = 0, y = arr_words[w].length; x < y; ++x ) {
             chars_array.push( '<div class="splitText_chars">' + arr_words[w][x] + '</div>' );
           };
           words_array.push( '<div class="splitText_words">' + chars_array.join('') + '</div>&nbsp;' );

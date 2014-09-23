@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GS DEMO</title>
+  <title>splitText.js</title>
   <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=7">
   <meta name="format-detection" content="telephone=no">
@@ -122,7 +122,7 @@
       border-color:#aaa !important;
       cursor:not-allowed !important;
     }
-    #ani{white-space: pre-wrap;opacity:0;}
+    .ani_div p{white-space: pre-wrap;}
     .splitText_words,.splitText_chars{
       position: relative;
       display:inline-block;
@@ -155,7 +155,6 @@
         <pre>
   splitText( '#foo', {
     type: 'chars',
-    animate: 'bounceInDown',
     duration: 0.8,
     delay: "-=0.5",
     restore: true
@@ -163,6 +162,7 @@
         </pre>
       当然还有两行 CSS 添加上：
         <pre>
+  (you selector){white-space: pre-wrap;}
   .splitText_words,
   .splitText_chars{
     position: relative;
@@ -230,9 +230,10 @@ Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
       <pre>
   splitText( '#ani_2 p', {
     type: 'words',
-    duration: 0.8,
+    duration: 1,
+    y: 100,
+    rotationY: 100,
     delay: "-=0.5",
-    restore: true
   });
   <button id="run_ani_2">run</button>
       </pre>
@@ -247,7 +248,10 @@ Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
     type: 'lines',
     duration: 1.2,
     delay: "+=1.5",
-    restore: true
+    restore: true,
+    fn: function(){
+      alert('transform is over');
+    }
   });
   <button id="run_ani_3">run</button>
       </pre>
@@ -255,6 +259,12 @@ Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
   </section>
   <section>
     <h4><span class="fa fa-level-up fa-lg"></span>版本更新</h4>
+    <h5>v 1.1.5</h5>
+    <ul>
+      <li>修改为立即执行函数</li>
+      <li>修改 for 循环</li>
+      <li>修改两次点击之后的 bug</li>
+    </ul>
     <h5>v 1.1</h5>
     <ul>
       <li>更改动画方法</li>
@@ -304,7 +314,8 @@ Comments are welcome through 14 October. Learn more about the HTML Activity.</p>
       type: 'lines',
       duration: 1.2,
       delay: "+=1.5",
-      restore: true
+      restore: true,
+      fn: function(){ alert('transform is over'); }
     });
     setTimeout(function(){ btn_click = false;that.removeClass( 'disable' ); }, 5000);
   });
